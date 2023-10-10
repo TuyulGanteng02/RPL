@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Pomodoro Timer</title>
+</head>
+<body>
+  <div id="current-task"></div>
+  <div class="timer">
+    <div id="task-name"></div>
+    <div id="waktu">60:00</div>
+  </div>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="pauseTimer()">Pause</button>
+  <button onclick="resetTimer()">Reset</button>
+  <div>
+    <input type="text" id="task" placeholder="Tambahkan Tugas">
+    <button onclick="addTask()">Tambah Tugas</button>
+  </div>
+  
+  <div id="task-list"></div>  
+  <button onclick="editTask()">Edit Tugas</button>
+  <button onclick="deleteTask()">Hapus Tugas</button>
+  <button onclick="skipSession()">Skip Sesi</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
