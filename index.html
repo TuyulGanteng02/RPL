@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
   <title>Pomodoro Timer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="current-task"></div>
-  <div class="timer">
-    <div id="task-name"></div>
-    <div id="waktu">60:00</div>
-  </div>
-  <button onclick="startTimer()">Start</button>
-  <button onclick="pauseTimer()">Pause</button>
-  <button onclick="resetTimer()">Reset</button>
-  <div>
-    <input type="text" id="task" placeholder="Tambahkan Tugas">
-    <button onclick="addTask()">Tambah Tugas</button>
-  </div>
-  
-  <div id="task-list"></div>  
-  <button onclick="editTask()">Edit Tugas</button>
-  <button onclick="deleteTask()">Hapus Tugas</button>
-  <button onclick="skipSession()">Skip Sesi</button>
+  <!-- Timer -->
+  <div id="timer">
+    <h1 id="time">25:00</h1>
+    <h3 id="session-name"></h3>
 
-  <script src="script.js"></script>
+    <button onclick="start()">Start</button>
+    <button onclick="pause()">Pause</button>
+
+    <button onclick="prevSession()">Prev Session</button> 
+    <button onclick="skipSession()">Skip Session</button>
+
+    <h3>Current Task:</h3>
+    <p id="task-name"></p>
+
+    <button onclick="prevTask()">Prev Task</button>
+    <button onclick="skipTask()">Skip Task</button>
+  </div>
+
+  <!-- Task List -->
+  <div id="task-list">
+    <h3>My Tasks</h3>
+    <button onclick="addTask()">+ Add Task</button>
+
+    <div id="tasks"></div>
+  </div>
+
+  <!-- Set Task Mode -->
+  <div id="set-mode">
+    <h3>Set Task Mode</h3>
+
+    <button onclick="setDefault()">Default</button>
+    <button onclick="setLong()">Long Timer</button> 
+    <button onclick="setShort()">Short Timer</button>
+    <button onclick="setCustom()">Custom</button>
+    <div id="custom-form"></div>
+  </div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
