@@ -1,8 +1,9 @@
 // Default Pomodoro Timer Values
-let sessionMinutes = 25;
-let breakMinutes = 5;
+let workMinutes = 25;
+let breakMinutes = 10;
+let longBreakMinutes = 15;
 let sessionName = 'Work';
-let currentSession = sessionMinutes * 60;
+let currentSession = workMinutes * 60;
 let taskMode = 'default';
 
 // DOM Elements
@@ -42,18 +43,6 @@ function pause() {
  intervalId = null;
 }
 
-function nextSession() {
- if (sessionName === 'Work') {
-    sessionName = 'Break';
-    currentSession = breakMinutes * 60;
- } else {
-    sessionName = 'Work';
-    currentSession = sessionMinutes * 60;
- }
- updateDisplay();
- sessionNameElement.textContent = sessionName;
-}
-
 function addTask() {
  let taskName = prompt('Enter task name:');
  if (taskName) {
@@ -65,57 +54,116 @@ function addTask() {
 }
 
 function setDefault() {
- sessionMinutes = 25;
+ workMinutes = 25;
  breakMinutes = 10;
+ longBreakMinutes = 15;
  sessionName = 'Work';
- currentSession = sessionMinutes * 60;
+ currentSession = workMinutes * 60;
  updateDisplay();
  sessionNameElement.textContent = sessionName;
  taskMode = 'default';
 }
 
 function setLong() {
-  sessionMinutes = 30;
-  breakMinutes = 15;
-  sessionName = 'Work';
-  currentSession = sessionMinutes * 60;
-  updateDisplay();
-  sessionNameElement.textContent = sessionName;
-  taskMode = 'long';
- }
+ workMinutes = 30;
+ breakMinutes = 15;
+ longBreakMinutes = 20;
+ sessionName = 'Work';
+ currentSession = workMinutes * 60;
+ updateDisplay();
+ sessionNameElement.textContent = sessionName;
+ taskMode = 'long';
+}
 
- function setShort() {
-  sessionMinutes = 20;
-  breakMinutes = 10;
-  sessionName = 'Work';
-  currentSession = sessionMinutes * 60;
-  updateDisplay();
-  sessionNameElement.textContent = sessionName;
-  taskMode = 'short';
- }
+function setShort() {
+ workMinutes = 20;
+ breakMinutes = 5;
+ longBreakMinutes = 10;
+ sessionName = 'Work';
+ currentSession = workMinutes * 60;
+ updateDisplay();
+ sessionNameElement.textContent = sessionName;
+ taskMode = 'short';
+}
 
 function setCustom() {
- let session = prompt('Enter session length in minutes:');
- let breakLength = prompt('Enter break length in minutes:');
- if (session && breakLength) {
-    sessionMinutes = parseInt(session);
+ let work = prompt('Work minutes:');
+ let breakLength = prompt('Break minutes:');
+ let longBreakLength = prompt('Long break minutes:');
+ if (work && breakLength) {
+    workMinutes = parseInt(work);
     breakMinutes = parseInt(breakLength);
+    longBreakMinutes = parseInt(longBreakLength);
     sessionName = 'Work';
-    currentSession = sessionMinutes * 60;
+    currentSession = workMinutes * 60;
     updateDisplay();
     sessionNameElement.textContent = sessionName;
     taskMode = 'custom';
  }
 }
 
-function init() {
+function prevSession() {
+  if (sessionName === 'Work') {
+    sessionName = 'Long Break';
+    currentSession = longBreakMinutes * 60;
+  } else if (sessionName === 'Break') {
+    sessionName = 'Work';
+    currentSession = workMinutes * 60;
+  } else if (sessionName === 'Long Break') {
+    sessionName = 'Break';
+    currentSession = breakMinutes * 60;
+  }
+  updateDisplay();
+  sessionNameElement.textContent = sessionName;
+}
+
+function nextSession() {
+ if (sessionName === 'Work') {
+    sessionName = 'Break';
+    currentSession = breakMinutes * 60;
+ } else if (sessionName === 'Break') {
+    sessionName = 'Long Break';
+    currentSession = longBreakMinutes * 60;
+ } else if (sessionName === 'Long Break') {
+    sessionName = 'Work';
+    currentSession = workMinutes * 60;
+ }
  updateDisplay();
  sessionNameElement.textContent = sessionName;
- if (taskMode === 'default') {
+}
+
+function prevTask() {
+  pause();
+  if (tasks.length > 0) {
+    tasks.pop();
+    updateTasks();
+  }
+}
+ 
+function skipTask() {
+  pause();
+  tasks.shift();
+  updateTasks();
+}
+ 
+function updateTasks() {
+  tasksElement.innerHTML = '';
+  tasks.forEach(taskName => {
+    let taskElement = document.createElement('p');
+    taskElement.textContent = taskName;
+    tasksElement.appendChild(taskElement);
+  });
+}
+
+function init() {
+  updateDisplay();
+  sessionNameElement.textContent = sessionName;
+  updateTasks();
+  if (taskMode === 'default') {
     setDefault();
- } else {
+  } else {
     setCustom();
- }
+  }
 }
 
 init();
